@@ -1,44 +1,41 @@
 <?php
 /**
- * Шаблон модуля "Рейтинг учеников по уровню опыта".
+ * Шаблон модуля "Рейтинг учеников по опыту".
  */
- 
- defined('_JEXEC') or die; ?>
- 
- <?php
-// Подключение jquery для эффекта скрытия/раскрытия строк таблицы.
-$document = JFactory::getDocument();
-$document->addScript('/modules/mod_rating/js/hide.js');
-?>
 
-<!-- Таблица рейтинга разбивается на 2 части. 1 часть статичная - заголовок столбцов таблицы -->
-<table id="practice">
-<tbody>
-<tr>
-<td style="width: 33px;" align="center"><strong>№</strong></td>
-<td style="width: 148px;"><strong>Ник</strong></td>
-<td style="width: 107px;"><strong>Опыт</strong></td>
-</tr>
-
-<!-- 2 часть таблицы динамично формируется в зависимости от результата запроса к базе данных. -->
+defined('_JEXEC') or die; ?>
 <?php
-// Начинается отсчет позиций рейтинга.
-$position = 1;	
-	
-	foreach ($rating as $row) {
-		// Идет построчное построение таблицы.
-		echo '<tr>';
-		// № позиции
-		echo '<td>' . $position . '</td>';
-		// логин пользователя
-        echo '<td>' . $row['0'] . '</td>';
-		// сумма опыта пользователя
-		echo '<td>' . $row['1'] . '</td>';
-		echo '</tr>';
-		// После отображения каждой строки прибавляется нумерация позиции в рейтинге.
-		$position ++;
-	}
+
+// Подключение css стилей модуля
+$document = JFactory::getDocument();
+// Подключение стиля для подсказок
+$document->addStyleSheet('/modules/mod_rating/css/tooltips.css');
+// Подключение стиля для скроллирования области
+$document->addStyleSheet('/modules/mod_rating/css/scroll.css');
 ?>
-</table>
-<input id="show_2" type="button" value="Раскрыть">
-<input id="hide_2" type="button" value="Скрыть">
+
+<h3>Рейтинг по <span data-tooltip="+ 1 за подход, + 10 за свидание, + 100 за секс. Опыт подтверждается аудиозаписью">опыту</span></h3>
+
+<div class="scroll">
+    <table id="practice">
+        <tbody>
+        <tr>
+            <td style="width: 33px;" align="center"><strong>№</strong></td>
+            <td style="width: 148px;"><strong>Ник</strong></td>
+            <td style="width: 107px;"><strong>Опыт</strong></td>
+        </tr>
+        <?php
+
+        $position = 1;
+
+        foreach ($rating as $row) {
+            echo '<tr>';
+            echo '<td>' . $position . '</td>';
+            echo '<td>' . $row['0'] . '</td>';
+            echo '<td>' . $row['1'] . '</td>';
+            echo '</tr>';
+            $position ++;
+        }
+        ?>
+    </table>
+</div>
